@@ -34,7 +34,7 @@
     <ClCompile Include="ExtIO_HackRF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Desktop\hackrf\host\libhackrf\src\hackrf.c">
+    <ClCompile Include="f:\source\hackrf\host\libhackrf\src\hackrf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

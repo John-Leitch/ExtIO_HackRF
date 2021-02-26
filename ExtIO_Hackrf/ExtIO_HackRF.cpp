@@ -44,12 +44,12 @@ static sr_t samplerates[] = {
 	{ 20000000, TEXT("20 MSPS") }
 };
 
-static int samplerate_default = 3; // 10 MSPS
+static int samplerate_default = 6; // 10 MSPS
 
 pfnExtIOCallback	Callback = nullptr;
 
 uint32_t gBandwidth;
-uint32_t gExtSampleRate = 10000000;//Default 10MSPS
+uint32_t gExtSampleRate = 20000000;//Default 10MSPS
 int64_t	glLOfreq = 101700000L;//Default 101.7Mhz
 bool gbExit = false;
 
@@ -69,7 +69,17 @@ short *short_buf = nullptr;
 
 int hackrf_rx_callback(hackrf_transfer* transfer){
 
+	// MessageBox(NULL, TEXT("rx callback"),
+	// 		TEXT("ExtIO HackRF"),
+	// 		MB_ICONERROR | MB_OK);
 	byte_count += transfer->valid_length;
+
+	if (transfer->valid_length > BUF_LEN)
+	{
+		MessageBox(NULL, TEXT("rx overflow callback"),
+			TEXT("ExtIO HackRF"),
+			MB_ICONERROR | MB_OK);
+	}
 
 	for (int i = 0; i < transfer->valid_length; i++)
 		{
@@ -364,7 +374,7 @@ int  EXTIO_API StartHW(long LOfreq)
 extern "C"
 int64_t  EXTIO_API StartHW64(int64_t LOfreq)
 {
-
+	MessageBox(NULL, TEXT("StartHW"), NULL, MB_OK);
 	if (device == NULL) {
 
 		MessageBox(NULL, TEXT("StartHW Failed"), NULL, MB_OK);
@@ -401,6 +411,7 @@ int64_t  EXTIO_API StartHW64(int64_t LOfreq)
 extern "C"
 void EXTIO_API StopHW(void)
 {
+	MessageBox(NULL, TEXT("StopHW"), NULL, MB_OK);
 	//gbStartHW = FALSE;
 	hackrf_stop_rx(device);
 
@@ -410,6 +421,7 @@ void EXTIO_API StopHW(void)
 extern "C"
 void EXTIO_API CloseHW(void)
 {
+	MessageBox(NULL, TEXT("CloseHW"), NULL, MB_OK);
 	gbExit = true;
 	CloseHandle(bandwidth_thread);
 	if (device != NULL){
